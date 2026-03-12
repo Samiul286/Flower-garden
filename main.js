@@ -41,9 +41,18 @@ let sceneBasic = new THREE.Scene();
 let camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 10);
 let clock = new THREE.Clock();
 
+let initPixelRatio = renderer.getPixelRatio();
 let renderTargets = [
-	new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight),
-	new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight),
+	new THREE.WebGLRenderTarget(window.innerWidth * initPixelRatio, window.innerHeight * initPixelRatio, {
+		minFilter: THREE.LinearFilter,
+		magFilter: THREE.LinearFilter,
+		format: THREE.RGBAFormat
+	}),
+	new THREE.WebGLRenderTarget(window.innerWidth * initPixelRatio, window.innerHeight * initPixelRatio, {
+		minFilter: THREE.LinearFilter,
+		magFilter: THREE.LinearFilter,
+		format: THREE.RGBAFormat
+	})
 ];
 
 createPlane();
@@ -232,7 +241,8 @@ function updateSize() {
 	shaderMaterial.uniforms.u_device_scale.value = window.innerWidth < 480 ? 0.5 : (window.innerWidth < 768 ? 0.7 : 1.0);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
-	// Resize render targets to match
-	renderTargets[0].setSize(window.innerWidth, window.innerHeight);
-	renderTargets[1].setSize(window.innerWidth, window.innerHeight);
+	// Resize render targets to match taking devicePixelRatio into account
+	let currentPixelRatio = renderer.getPixelRatio();
+	renderTargets[0].setSize(window.innerWidth * currentPixelRatio, window.innerHeight * currentPixelRatio);
+	renderTargets[1].setSize(window.innerWidth * currentPixelRatio, window.innerHeight * currentPixelRatio);
 }
