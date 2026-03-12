@@ -167,6 +167,7 @@ function createPlane() {
 			},
 			u_cursor: { type: 'v2', value: new THREE.Vector2(pointer.x, pointer.y) },
 			u_ratio: { type: 'f', value: window.innerWidth / window.innerHeight },
+			u_device_scale: { type: 'f', value: window.innerWidth < 480 ? 0.5 : (window.innerWidth < 768 ? 0.7 : 1.0) },
 			u_texture: { type: 't', value: null },
 			u_flower1: { type: 't', value: tex1 },
 			u_flower2: { type: 't', value: tex2 },
@@ -228,6 +229,7 @@ function render() {
 
 function updateSize() {
 	shaderMaterial.uniforms.u_ratio.value = window.innerWidth / window.innerHeight;
+	shaderMaterial.uniforms.u_device_scale.value = window.innerWidth < 480 ? 0.5 : (window.innerWidth < 768 ? 0.7 : 1.0);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
 	// Resize render targets to match

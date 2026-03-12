@@ -62,6 +62,7 @@
         uniform float u_clean;
         uniform vec2 u_stop_randomizer;
         uniform float u_theme; // 0.0 for light, 1.0 for dark
+        uniform float u_device_scale;
 
         uniform sampler2D u_texture;
         uniform sampler2D u_flower1;
@@ -240,6 +241,8 @@
             uv.x *= u_ratio;
             vec2 cursor = vUv - u_cursor.xy;
             cursor.x *= u_ratio;
+            
+            cursor /= u_device_scale;
             
             // Enhanced stem colors with gradient
             vec3 stem_color_light = vec3(.15 + u_stop_randomizer[0] * .4, .65, .25);
